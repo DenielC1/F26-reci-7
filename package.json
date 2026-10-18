@@ -1,0 +1,26 @@
+{
+  "name": "pbt-fast-check",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "17-313 recitation + problem set: property-based testing with fast-check",
+  "engines": {
+    "node": "^20.0.0 || ^22.0.0 || >=24.0.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:wordle": "vitest run test/wordle.test.ts",
+    "test:intervals": "vitest run test/intervals.test.ts",
+    "mutants:wordle": "tsx scripts/mutants.ts wordle",
+    "mutants:intervals": "tsx scripts/mutants.ts intervals",
+    "self-check": "tsx scripts/self-check.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "fast-check": "^4.10.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12"
+  }
+}
