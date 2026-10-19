@@ -1,7 +1,7 @@
 # Problem Set: Property-Based Testing
 
-**Due:** _TBD_ · **Work:** individually · **Expected time:** 2–3 hours ·
-**Graded:** for completion
+**Due:** Friday, October 23, 11:59 PM · **Work:** individually ·
+**Expected time:** 2–3 hours · **Graded:** for completion
 
 You'll finish the two test suites you started in recitation, then answer a
 few reflection questions.
