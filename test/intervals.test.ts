@@ -10,9 +10,7 @@ import { mergeIntervals, type Interval } from '../src/intervals';
 //   // Pattern: invariant. The output is sorted.
 // (invariant, algebraic, metamorphic, differential, or conditional)
 
-// A first attempt at a generator. It has a problem: run the tests and read
-// the counterexample.
-const interval: fc.Arbitrary<Interval> = fc.tuple(fc.integer(), fc.integer());
+const interval: fc.Arbitrary<Interval> = fc.tuple(fc.integer(), fc.integer()).map(([a, b]): Interval => (a <= b ? [a, b] : [b, a]));
 const intervalList = fc.array(interval);
 
 describe('mergeIntervals', () => {
