@@ -18,6 +18,7 @@ const wordFrom = (letters: string) =>
 const word = wordFrom(ALPHABET);
 
 describe('matchGuess', () => {
+  // Pattern: invariant. The result always contains exactly five colors.
   it('returns exactly five colors', () => {
     fc.assert(
       fc.property(word, word, (secret, guess) => {
@@ -26,6 +27,7 @@ describe('matchGuess', () => {
     );
   });
 
+  // Pattern: invariant. Every output color is G, Y, or B.
   it('only uses the colors G, Y, B', () => {
     fc.assert(
       fc.property(word, word, (secret, guess) => {
@@ -34,6 +36,7 @@ describe('matchGuess', () => {
     );
   });
 
+  // Pattern: invariant. Credited occurrences never exceed the secret's letter count.
   it('never credits a letter more times than the secret contains it', () => {
     fc.assert(
       fc.property(word, word, (secret, guess) => {
@@ -47,10 +50,27 @@ describe('matchGuess', () => {
     );
   });
 
+  // Pattern: conditional. If the guess equals the secret, every color is green.
   it('guessing the secret gives all greens', () => {
     fc.assert(
       fc.property(word, (secret) => {
         expect(matchGuess(secret, secret)).toEqual(['G', 'G', 'G', 'G', 'G']);
+      }),
+    );
+  });
+
+  // Pattern: metamorphic. Rotating a distinct-letter exact guess turns every green into yellow.
+  it('turns greens into yellows when a distinct-letter guess is rotated', () => {
+    const distinctWord = fc.shuffledSubarray([...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'], {
+      minLength: 5,
+      maxLength: 5,
+    }).map(letters => letters.join(''));
+    fc.assert(
+      fc.property(distinctWord, fc.integer({ min: 1, max: 4 }), (secret, shift) => {
+        const rotatedGuess = secret.slice(shift) + secret.slice(0, shift);
+        const original = matchGuess(secret, secret);
+        expect(matchGuess(secret, rotatedGuess))
+          .toEqual(original.map(color => color === 'G' ? 'Y' : color));
       }),
     );
   });
